@@ -7,12 +7,14 @@ function AgregarProducto() {
   const navigate = useNavigate();
   const { agregarProducto } = useProductos();
   const [producto, setProducto] = useState({
+    id: 1,
+    imagen: "",
     nombre: "",
     precio: "",
     descripcion: "",
     categoria: "",
-    imagen: "",
     stock: "",
+    visible: true,
   });
 
   const handleChange = (e) => {

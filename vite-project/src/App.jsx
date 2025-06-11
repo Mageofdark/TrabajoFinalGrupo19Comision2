@@ -1,14 +1,14 @@
 import { Routes, Route } from 'react-router-dom';
 import Layout from './Layout';
 import Home from './Home';
-import Nosotros from './nosotros';
-import AgregarProducto from './components/AgregarProducto';
-import { ProductosProvider } from './components/ProductosContext';
+import Nosotros from './Nosotros';
+import AgregarProducto from '../components/AgregarProducto'
+import { ProductosProvider } from '../components/ProductosContext';
 
 function App() {
   return (
     <ProductosProvider>
-      <div className='conteiner'>
+      <div className='container'>
         <Routes>
           <Route path='/' element={<Layout />}>
             <Route index element={<Home />} />

@@ -1,0 +1,32 @@
+export const Listado_productos = [
+    {
+        id: 1,
+        imagen: "https://i.imgur.com/1z5Z3bH.jpg",
+        nombre: "Notebook",
+        precio: 9999999,
+        descripcion: "Con luces",
+        categoria: "Tecnologia",
+        stock: 10,
+        visible: true,
+    },
+    {
+        id: 1,
+        imagen: "https://i.imgur.com/1z5Z3bH.jpg",
+        nombre: "Celular",
+        precio: 1000000,
+        descripcion: "Esta god",
+        categoria: "Tecnologia",
+        stock: 10,
+        visible: true,
+    },
+    {
+        id: 1,
+        imagen: "https://i.imgur.com/1z5Z3bH.jpg",
+        nombre: "Guitarra",
+        precio: 9999990,
+        descripcion: "Guitarra acustica",
+        categoria: "Musica",
+        stock: 10,
+        visible: true,
+    },
+]
