@@ -1,19 +1,22 @@
 import { Routes, Route } from 'react-router-dom';
 import Layout from './Layout';
 import Home from './Home';
-import Nosotros from './nosotros';
-import AgregarProducto from './components/AgregarProducto';
-import { ProductosProvider } from './components/ProductosContext';
+import Nosotros from './Nosotros';
+import AgregarProducto from '../components/AgregarProducto'
+import { ProductosProvider } from '../components/ProductosContext';
+import { MostrarProductos, Detalles } from '../components/Lista_Productos';
+
 
 function App() {
   return (
     <ProductosProvider>
-      <div className='conteiner'>
+      <div className='container'>
         <Routes>
           <Route path='/' element={<Layout />}>
             <Route index element={<Home />} />
+            <Route path='Lista-Productos' element={<MostrarProductos />} />
+            <Route path='Lista-Productos/:id' element={<Detalles />} />
             <Route path='Favoritos' element={<h1>Favoritos</h1>} />
-            <Route path='Lista-Productos/:id' element={<h1>Detalles</h1>} />
             <Route path='Lista-Productos/:id/editar' element={<h1>Editar</h1>} />
             <Route path='Nuevo-Producto' element={<AgregarProducto />} />
             <Route path='Nosotros' element={<Nosotros />} />

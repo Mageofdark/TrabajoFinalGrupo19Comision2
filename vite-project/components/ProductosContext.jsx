@@ -1,10 +1,10 @@
 import { createContext, useContext, useState } from "react";
-import { Listado_Productos } from "./Listado_productos"; // este es el archivo con los prodctos iniales huanca
+import { Listado_productos } from "./Listado_Productos";
 
 const ProductosContext = createContext();
 
 export function ProductosProvider({ children }) {
-  const [productos, setProductos] = useState(Listado_Productos || []);
+  const [productos, setProductos] = useState(Listado_productos || []);
 
   const agregarProducto = (nuevoProducto) => {
     setProductos([...productos, { ...nuevoProducto, id: Date.now() }]);

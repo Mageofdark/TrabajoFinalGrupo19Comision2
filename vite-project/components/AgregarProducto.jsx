@@ -7,12 +7,14 @@ function AgregarProducto() {
   const navigate = useNavigate();
   const { agregarProducto } = useProductos();
   const [producto, setProducto] = useState({
+    id: Date.now(),
+    imagen: "",
     nombre: "",
     precio: "",
     descripcion: "",
     categoria: "",
-    imagen: "",
     stock: "",
+    visible: true,
   });
 
   const handleChange = (e) => {
@@ -30,7 +32,9 @@ function AgregarProducto() {
     <Container>
       <h2>Agregar Producto</h2>
       <Form onSubmit={handleSubmit}>
-        {Object.keys(producto).map((campo) => (
+        {Object.keys(producto)
+        .filter((campo) => campo !== 'visible' && campo !== 'id')
+        .map((campo) => (
           <Form.Group className="mb-3" controlId={campo} key={campo}>
             <Form.Label>{campo.charAt(0).toUpperCase() + campo.slice(1)}</Form.Label>
             <Form.Control
