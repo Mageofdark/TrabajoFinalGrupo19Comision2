@@ -72,12 +72,12 @@ export function Detalles(){
         <ListGroup>
           <ListGroup.Item>
             <img src={producto.image} alt={producto.title} width={200} />
-<ListGroup.Item>ID: {producto.id}</ListGroup.Item>
-<ListGroup.Item>Nombre: {producto.title}</ListGroup.Item>
-<ListGroup.Item>Precio: {producto.price}</ListGroup.Item>
-<ListGroup.Item>Descripcion: {producto.description}</ListGroup.Item>
-<ListGroup.Item>Categoria: {producto.category}</ListGroup.Item>
-</ListGroup.Item>
+            <ListGroup.Item>ID: {producto.id}</ListGroup.Item>
+            <ListGroup.Item>Nombre: {producto.title}</ListGroup.Item>
+            <ListGroup.Item>Precio: {producto.price}</ListGroup.Item>
+            <ListGroup.Item>Descripcion: {producto.description}</ListGroup.Item>
+            <ListGroup.Item>Categoria: {producto.category}</ListGroup.Item>
+          </ListGroup.Item>
         </ListGroup>
     </Card>
   );
