@@ -2,7 +2,7 @@ import { useProductos } from "./ProductosContext.jsx";
 import { Container, Button, Card, Row, Col, } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 export function Favoritos() {
-  const { productos } = useProductos();
+  const { productos, selecionFavorito } = useProductos();
   const favoritos = productos.filter((p) => p.favorito && p.visible);
 
   return (
