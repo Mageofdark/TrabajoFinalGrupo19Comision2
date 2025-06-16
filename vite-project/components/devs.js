@@ -5,6 +5,8 @@ export const Devs = [
     apellido: "Apaza",
     github: "https://github.com/ApazaIgnacio",
     Institucion: "Escuela de Minas",
+    correo: "example@gmail.com",
+    img: "https://avatars.githubusercontent.com/u/123456789?v=4",
   },
   {
     id: 2,
@@ -12,6 +14,8 @@ export const Devs = [
     apellido: "Huanca",
     github: "https://github.com/Ignacio367",
     Institucion: "Escuela de Minas",
+    correo: "example@gmail.com",
+    img: "https://avatars.githubusercontent.com/u/123456789?v=4",
   },
   {
     id: 3,
@@ -19,6 +23,8 @@ export const Devs = [
     apellido: "Figueroa",
     github: "https://github.com/mikluha12",
     Institucion: "Escuela de Minas",
+    correo: "example@gmail.com",
+    img: "https://avatars.githubusercontent.com/u/123456789?v=4",
   },
   {
     id: 4,
@@ -26,6 +32,8 @@ export const Devs = [
     apellido: "Real",
     github: "https://github.com/Mageofdark",
     Institucion: "Escuela de Minas",
+    correo: "example@gmail.com",
+    img: "https://avatars.githubusercontent.com/u/123456789?v=4",
   },
   {
     id: 5,
@@ -33,6 +41,8 @@ export const Devs = [
     apellido: "Velazquez",
     github: "https://github.com/matias12131",
     Institucion: "Escuela de Minas",
+    correo: "example@gmail.com",
+    img: "https://avatars.githubusercontent.com/u/123456789?v=4",
   },
   
 ]

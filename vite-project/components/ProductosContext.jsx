@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useFetch } from "./useFetch";
 import { useParams } from "react-router-dom";
-import { Card, Button, ListGroup } from "react-bootstrap";
+import { Container, Button, Form, Card, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
 const ProductosContext = createContext();
 
 export function ProductosProvider({ children }) {
@@ -62,23 +62,44 @@ export function Detalles(){
   if (!producto) return <p>Producto no encontrado</p>;
 
   return (
-    <Card className='bg-light p-4 mt-4'>
+    <Card className='bg-dark text-light p-4 mt-4'>
         <div className="d-flex gap-2 mt-3">
-          <Button variant="outline-secondary" onClick={() => window.history.back()}>
+          <Button variant="outline-primary" onClick={() => window.history.back()}>
             Volver
           </Button>
         </div>
-        <h2>Detalles del Producto</h2>
-        <ListGroup>
-          <ListGroup.Item>
-            <img src={producto.image} alt={producto.title} width={200} />
-            <ListGroup.Item>ID: {producto.id}</ListGroup.Item>
-            <ListGroup.Item>Nombre: {producto.title}</ListGroup.Item>
-            <ListGroup.Item>Precio: {producto.price}</ListGroup.Item>
-            <ListGroup.Item>Descripcion: {producto.description}</ListGroup.Item>
-            <ListGroup.Item>Categoria: {producto.category}</ListGroup.Item>
-          </ListGroup.Item>
-        </ListGroup>
+        <h2 className="mt-4 mb-4">Detalles del Producto</h2>
+        <Card.Body className="bg-secondary p-0">
+          <Row className="g-0">
+            <Col md={4} className="p-3 d-flex justify-content-center align-items-center">
+              <img
+              src={producto.image}
+              alt={producto.title}
+              className="img-fluid rounded"
+              style={{maxHeight: '300px', objectFit: 'contain'}}
+              />
+            </Col>
+            <Col md={8} className="p-4">
+              <ListGroup variant="flush" className="bg-transparent">
+                <ListGroup.Item className="bg-transparent text-light">
+                  <strong>ID:</strong> {producto.id}
+                </ListGroup.Item>
+                <ListGroup.Item className="bg-transparent text-light ">
+                  <strong>Nombre:</strong> {producto.title}
+                </ListGroup.Item>
+                <ListGroup.Item className="bg-transparent text-light">
+                  <strong>Precio:</strong> ${producto.price}
+                </ListGroup.Item>
+                <ListGroup.Item className="bg-transparent text-light ">
+                  <strong>Descripción:</strong> {producto.description}
+                </ListGroup.Item>
+                <ListGroup.Item className="bg-transparent text-light ">
+                  <strong>Categoría:</strong> {producto.category}
+                </ListGroup.Item>
+              </ListGroup>
+            </Col>
+          </Row>
+        </Card.Body>
     </Card>
   );
 };
