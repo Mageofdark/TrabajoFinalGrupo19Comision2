@@ -4,8 +4,8 @@ import { Link, Outlet } from 'react-router-dom'
 function Layout(){
     return (
         <>
-        <div className="bg-light min-vh-100">
-            <Navbar expand="lg" bg="secondary" variant='dark'>
+        <div className="bg-dark min-vh-100 text-white">
+            <Navbar expand="lg" bg='primary' variant='dark'>
                 <Container>
                     <Navbar.Brand as={Link} to="/" className='fw-bold'>Pagina de Productos</Navbar.Brand>
                     <Navbar.Toggle aria-controls='basic-navbar-nav' />

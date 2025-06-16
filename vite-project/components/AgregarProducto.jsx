@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, Button, Container } from "react-bootstrap";
+import { Container, Button, Form, Card, Row, Col, } from 'react-bootstrap';
 import { useProductos } from "./ProductosContext";
 
 function AgregarProducto() {
@@ -29,27 +29,51 @@ function AgregarProducto() {
   };
 
   return (
-    <Container>
-      <h2>Agregar Producto</h2>
-      <Form onSubmit={handleSubmit}>
-        {Object.keys(producto)
-        .filter((campo) => campo !== 'visible' && campo !== 'id')
-        .map((campo) => (
-          <Form.Group className="mb-3" controlId={campo} key={campo}>
-            <Form.Label>{campo.charAt(0).toUpperCase() + campo.slice(1)}</Form.Label>
-            <Form.Control
-              type="text"
-              name={campo}
-              value={producto[campo]}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-        ))}
-        <Button variant="primary" type="submit">
-          Guardar
-        </Button>
-      </Form>
+    <Container className="mt-5">
+      <Row className="justify-content-center">
+          <Col md={10}>
+            <Card className="border-primary shadow bg-secondary text-light">
+              <Card.Header as="h5" className="text-center bg-secondary text-white">
+                Agregar Producto
+              </Card.Header>
+              <Card.Body className="bg-secondary">
+                  <Form onSubmit={handleSubmit}>
+                    <Row>
+                        {Object.keys(producto)
+                        .filter((campo) => campo !== "visible" && campo !== "id" )
+                        .map((campo) => (
+                          <Col md={6} key={campo}>
+                            <Form.Group className="mb-3" controlId={campo}>
+                              <Form.Label className="text-light">
+                                {campo.charAt(0).toUpperCase() + campo.slice(1)}
+                              </Form.Label>
+                              <Form.Control
+                                type={
+                                  campo === "price"
+                                  ? "number" : "text"
+                                }
+                                name={campo}
+                                value={producto[campo]}
+                                onChange={handleChange}
+                                className="border-primary text-dark"
+                                required
+                                />
+
+                              </Form.Group>
+                          </Col>
+                    ))}
+                    </Row>
+                  <Button variant="danger" onClick={() => navigate("/Lista-Productos")}>
+                    Cancelar
+                  </Button>
+                  <Button className='ml-4' variant="primary" type="submit">
+                    Agregar
+                  </Button>   
+                </Form>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
     </Container>
   );
 }

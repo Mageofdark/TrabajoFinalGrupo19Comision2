@@ -1,5 +1,5 @@
 import { useProductos } from './ProductosContext.jsx';
-import { Container, ListGroup, Button, Form, Card, ListGroupItem, Row, Col, } from 'react-bootstrap';
+import { Container, Button, Form, Card, Row, Col, } from 'react-bootstrap';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -53,31 +53,24 @@ export function EditarProducto() {
 
   return (
     <>
-      <Container className="mt-4 bg-light p-4 rounded">
+      <Container className="mt-4 bg-dark p-4 rounded text-light">
         <Row className="justify-content-center">
           <Col md={10}>
-            <Card className="border-white shadow">
+            <Card className="border-primary shadow bg-secondary text-light">
               <Card.Header as="h5" className="text-center bg-secondary text-white">
                 Editar Producto
               </Card.Header>
-              <Card.Body className="bg-white">
+              <Card.Body className="bg-secondary">
                   <Form onSubmit={handleSubmit} noValidate>
-                    <Form.Group className='mb-3'>
-                      <Form.Label>ID</Form.Label>
-                      <Form.Control
-                        type='text'
-                        readOnly
-                        value={productoEdit.id}
-                        className='bg-light border-dark'
-                      />
-                    </Form.Group>
+                    <h3>ID: {productoEdit.id}</h3>
+                    
                     <Row>
                         {Object.keys(productoEdit)
                         .filter((campo) => campo !== "visible" && campo !== "id" && campo !== "favorito" && campo !== "rating")
                         .map((campo) => (
                           <Col md={6} key={campo}>
                             <Form.Group className="mb-3" controlId={campo}>
-                              <Form.Label className="text-dark">
+                              <Form.Label className="text-light">
                                 {campo.charAt(0).toUpperCase() + campo.slice(1)}
                               </Form.Label>
                               <Form.Control
@@ -89,7 +82,7 @@ export function EditarProducto() {
                                 value={productoEdit[campo]}
                                 onChange={handleChange}
                                 isInvalid={!!errores[campo]}
-                                className="border-dark"
+                                className="border-primary text-dark"
                                 required
                                 />
                               <Form.Control.Feedback type="invalid">
@@ -102,7 +95,7 @@ export function EditarProducto() {
                   <Button variant="danger" onClick={() => navigate("/Lista-Productos")}>
                     Cancelar
                   </Button>
-                  <Button variant="secondary" type="submit">
+                  <Button className='ml-4' variant="primary" type="submit">
                     Guardar Cambios
                   </Button>   
                 </Form>
@@ -129,42 +122,54 @@ export function MostrarProductos() {
   }
 
   return (
-    <Container className='p-4 rounded'>
+    <Container className=' p-4 rounded'>
       <h2>Lista de productos</h2>
-      {productos.map((producto) => producto.visible && (
-        <ListGroup key={producto.id} horizontal className='m-2 '>
-          <ListGroup.Item className='border-1'>
-              {producto.categoria}
-          </ListGroup.Item>
-          <ListGroup.Item>
-            <br />
-            <img src={producto.image} alt={producto.title} width={200} />
-          </ListGroup.Item>
-          <ListGroup.Item className='border-1'>Nombre: {producto.title}</ListGroup.Item>
-          <ListGroup.Item className='border-1'>Precio: {producto.price}</ListGroup.Item>
-          <ListGroup.Item className='border-1'>
-            <Link to={`/Lista-productos/${producto.id}`} >
-              <Button variant='info' size='sm' className='m-2'>
-                Mas Detalles
-              </Button>
-            </Link>
-            <Link to={`/Lista-productos/editar/${producto.id}`}>
-              <Button variant='info' size='sm' className='m-2'>
-                  Editar
-              </Button>
-            </Link>
-            <Button onClick={() => handleEliminar(producto.id)} variant='danger' size='sm' className='m-2'>
-              Eliminar
-            </Button>
-          </ListGroup.Item>
-          <ListGroup.Item>
-            <input
-              type="checkbox"
-              checked={producto.favorito || false}
-              onChange={() => selecionFavorito(producto.id)}/> Favorito
-          </ListGroup.Item>
-        </ListGroup>
+      <Row xs={1} md={2} lg={3} xl={4} className='g-4'>
+         {productos.map((producto) => producto.visible && (
+        <Col key={producto.id}>
+          <Card className='h-100 bg-secondary text-light bordder-primary'>
+            <div className='d-flex justify-content-center p-3'>
+              <Card.Img variant='top'src={producto.image} alt={producto.title} height={250}
+              width={100}/>
+            </div>
+            <Card.Body>
+              <small className='text-muted'> {producto.categoria}</small>
+              <Card.Title className='mt-1 mb-2' style={{height: '180px'}}>
+                {producto.title}
+              </Card.Title>
+              <div className='mt-auto'>
+                <h5>${producto.price}</h5>
+                <div className='d-flex flex-wrap gap-2'>
+                  <Link to={`/Lista-productos/${producto.id}`}>
+                    <Button variant='info' size='sm' className='m-2'>
+                      Mas Detalles
+                    </Button>
+                  </Link>
+                  <Link to={`/Lista-productos/editar/${producto.id}`}>
+                    <Button variant='info' size='sm' className='m-2'>
+                      Editar
+                    </Button>
+                  </Link>
+                  <Button onClick={() => handleEliminar(producto.id)} variant='danger' size='sm' className='m-2'>
+                    Eliminar
+                  </Button>
+                  <div className='form-check form-switch mt-2'>
+                    <input
+                      className='form-check-input'
+                      id={`favorito-${producto.id}`}
+                      role='switch'
+                      type="checkbox"
+                      checked={producto.favorito || false}
+                      onChange={() => selecionFavorito(producto.id)}
+                    /> Favorito
+                  </div>
+                </div>
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
       ))}
+      </Row>
     </Container>
   );
 }

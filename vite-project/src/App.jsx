@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Layout from './Layout';
 import Home from './Home';
-import Nosotros from './Nosotros';
+import Nosotros from './nosotros';
 import AgregarProducto from '../components/AgregarProducto'
 import { ProductosProvider, Detalles } from '../components/ProductosContext';
 import { MostrarProductos, EditarProducto } from '../components/Lista_Productos';
@@ -10,7 +10,7 @@ import { Favoritos } from '../components/Favoritos';
 function App() {
   return (
     <ProductosProvider>
-      <div className='container'>
+      <div className='bg-dark text-white min-vh-100'>
         <Routes>
           <Route path='/' element={<Layout />}>
             <Route index element={<Home />} />
