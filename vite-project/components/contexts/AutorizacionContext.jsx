@@ -1,4 +1,4 @@
-import { createContext, useState, useMemo, useEffect, useCallback } from "react";
+import { createContext, useState, useMemo, useEffect, useCallback, act } from "react";
 
 import usersData from "../data/Usuarios.json";
 
@@ -39,7 +39,8 @@ export function AuthProvider({ children }){
     const login = useCallback(async (credentials) => {
         setIsLoading(true);
         try{
-            const usuarioEncontrado = listaUsuarios.find(
+            const usuariosGuardados = JSON.parse(localStorage.getItem("Usuarios")) || listaUsuarios;
+            const usuarioEncontrado = usuariosGuardados.find(
                 u => u.username === credentials.username && u.password === credentials.password && u.visible == true
             );
 
@@ -49,6 +50,7 @@ export function AuthProvider({ children }){
                 setIsLoading(false); //Desactivar carga aqui                
                 return { success: true }; //Retorna exito
             } else {
+                console.log(listaUsuarios)
                 //si no encuentra el usuario o los datos no coinciden
                 setUser(null);
                 setIsLoading(false); //Desactivar carga aqui
@@ -69,7 +71,7 @@ export function AuthProvider({ children }){
         setUser(null);
     }, []);
 
-    const registrarUsuario = (nuevoUsuario) => {
+    const registrarUsuario = useCallback((nuevoUsuario) => {
         const nuevo = {
             ...nuevoUsuario,
             id: Date.now(), 
@@ -79,17 +81,20 @@ export function AuthProvider({ children }){
             listafavoritos: [],
         };
         
-        setUser(nuevo);
-        setListaUsuarios(prev => {                              //Añade el usuario a la lista de usuarios y lo guarda en el localstorage
-            const actualizada = [...prev, nuevo];
-            localStorage.setItem("Usuarios", JSON.stringify(actualizada)); 
-            return actualizada;
-        });
-    }
+        const actualizada = [...listaUsuarios, nuevo]           //Añade el usuario a la lista de usuarios y lo guarda en el localstorage
+        localStorage.setItem("Usuarios", JSON.stringify(actualizada));
+        setListaUsuarios(actualizada);
+    },[]);
 
     const eliminarUsuario = (id) => {
     const confirmation = window.confirm("¿Estás seguro de que deseas eliminar su cuenta? Esta accion es irreversible");
     if(!confirmation) return;
+
+    if(id <=5){
+        alert("No puedes eliminar esta cuenta. Es una cuenta protegida");
+        return;
+    }
+
     console.log(listaUsuarios)
     const newListaUsuarios = listaUsuarios.map((e) => 
         e.id === id ? {...e, visible: false} : e

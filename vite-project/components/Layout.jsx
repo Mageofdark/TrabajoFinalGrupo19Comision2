@@ -35,7 +35,7 @@ function Layout(){
                             </>) 
                         : (                                             // si esta registrado muestra el link del perfil y el btn de cerrar session
                             <>
-                                <NavDropdown title="Perfil" id="basic-nav-dropdown">
+                                <NavDropdown title='Perfil' id="basic-nav-dropdown">
                                     <NavDropdown.Item as={Link} to="/Profile">Ajustes</NavDropdown.Item>
                                     <NavDropdown.Divider />
                                     <Button className="w-100" onClick={logout}> Cerrar Sesion </Button>

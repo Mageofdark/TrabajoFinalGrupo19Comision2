@@ -54,8 +54,10 @@ function SignUp() {
 
     setErrores(erroresVal);
     if (Object.keys(erroresVal).length > 0) return;
-    
-    registrarUsuario(nuevoUsuario);
+
+    const { confirmarpassword, ...userWithoutConfirmarPassword } = nuevoUsuario;
+    registrarUsuario(userWithoutConfirmarPassword);
+
     alert("Usuario agregado exitosamente");
     navigate("/Login");
   };
