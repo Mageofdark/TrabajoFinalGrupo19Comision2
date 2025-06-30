@@ -3,7 +3,6 @@ import { Container, Button, Form, Card, Row, Col, } from 'react-bootstrap';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import useAuth from './hooks/useAuth.js';
-import AdministracionFavoritos from './AdministracionFavoritos.jsx';
 
 export function EditarProducto() {
   const navigate = useNavigate();
@@ -132,26 +131,20 @@ export function MostrarProductos() {
 
     selecionFavorito(id);           //marca el favorito en la pantalla
    
-    //verifica si el producto favorito ya esta en la lista personal del usuario
-    if (user.listafavoritos.includes(id)) {
-      setUser({
-        ...user,
-        listafavoritos: user.listafavoritos.filter(( Favid ) => Favid !== id )
-      })
-    } else {                              // agrega el id del producto favorito a los datos del usuario
-    setUser( {
+    const ActUser = {
       ...user,
-      listafavoritos: [...user.listafavoritos , id]
-      }
-    )
+      listafavoritos: user.listafavoritos.includes(id)            //verifica si el producto favorito ya esta en la lista personal del usuario
+      ? user.listafavoritos.filter((FavId) => FavId !== id)       //si esta lo saca de la lista (marcar denuevo = deja de ser favorito)
+      : [...user.listafavoritos, id]                              //si no esta lo mete a la lista
     }
+    setUser(ActUser);
 
     const newListaUsuarios = listaUsuarios.map((e) => 
-    e.id === user.id ? {...e, ...user} : e              //se intercambian solo los datos que tienen en comun (user no maneja la contraseña)
+    e.id === user.id ? {...e, ...ActUser} : e              //se intercambian solo los datos que tienen en comun (porque user no maneja la contraseña)
     )
     localStorage.setItem("Usuarios", JSON.stringify(newListaUsuarios)); 
     setListaUsuarios(newListaUsuarios);
-    console.log(user);
+    console.log(ActUser);
   }
 
   return (
@@ -195,7 +188,7 @@ export function MostrarProductos() {
                       id={`favorito-${producto.id}`}
                       role='switch'
                       type="checkbox"
-                      checked={producto.favorito || false}
+                      checked={user?.listafavoritos?.includes(producto.id) || false}
                       onChange={() => agregarfavorito(producto.id)}
                     /> Favorito
                   </div>
