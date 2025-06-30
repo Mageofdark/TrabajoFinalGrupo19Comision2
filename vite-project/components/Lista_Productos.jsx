@@ -1,7 +1,9 @@
 import { useProductos } from './ProductosContext.jsx';
 import { Container, Button, Form, Card, Row, Col, } from 'react-bootstrap';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import useAuth from './hooks/useAuth.js';
+import AdministracionFavoritos from './AdministracionFavoritos.jsx';
 
 export function EditarProducto() {
   const navigate = useNavigate();
@@ -110,6 +112,7 @@ export function EditarProducto() {
 
 export function MostrarProductos() {
   const { productos, setProductos, selecionFavorito } = useProductos();
+  const { isAuthenticated , user, setUser, listaUsuarios, setListaUsuarios } = useAuth();
   const handleEliminar = (id) => {
     const confirmation = window.confirm("¿Estás seguro de que deseas eliminar este producto?");
     if(!confirmation) return;
@@ -119,6 +122,36 @@ export function MostrarProductos() {
     )
 
     setProductos(newProductos);
+  }
+
+  const agregarfavorito = (id) => {
+    if(!isAuthenticated){
+      alert("necesita cuenta de usuario para marcar favoritos");
+      return;
+    }
+
+    selecionFavorito(id);           //marca el favorito en la pantalla
+   
+    //verifica si el producto favorito ya esta en la lista personal del usuario
+    if (user.listafavoritos.includes(id)) {
+      setUser({
+        ...user,
+        listafavoritos: user.listafavoritos.filter(( Favid ) => Favid !== id )
+      })
+    } else {                              // agrega el id del producto favorito a los datos del usuario
+    setUser( {
+      ...user,
+      listafavoritos: [...user.listafavoritos , id]
+      }
+    )
+    }
+
+    const newListaUsuarios = listaUsuarios.map((e) => 
+    e.id === user.id ? {...e, ...user} : e              //se intercambian solo los datos que tienen en comun (user no maneja la contraseña)
+    )
+    localStorage.setItem("Usuarios", JSON.stringify(newListaUsuarios)); 
+    setListaUsuarios(newListaUsuarios);
+    console.log(user);
   }
 
   return (
@@ -145,6 +178,8 @@ export function MostrarProductos() {
                       Mas Detalles
                     </Button>
                   </Link>
+                  {user?.rol === "ADMIN" &&                 // si es ADMIN se mostrara boton de editar y de eliminar
+                  <>
                   <Link to={`/Lista-productos/editar/${producto.id}`}>
                     <Button variant='info' size='sm' className='m-2'>
                       Editar
@@ -153,6 +188,7 @@ export function MostrarProductos() {
                   <Button onClick={() => handleEliminar(producto.id)} variant='danger' size='sm' className='m-2'>
                     Eliminar
                   </Button>
+                  </>}
                   <div className='form-check form-switch mt-2'>
                     <input
                       className='form-check-input'
@@ -160,7 +196,7 @@ export function MostrarProductos() {
                       role='switch'
                       type="checkbox"
                       checked={producto.favorito || false}
-                      onChange={() => selecionFavorito(producto.id)}
+                      onChange={() => agregarfavorito(producto.id)}
                     /> Favorito
                   </div>
                 </div>

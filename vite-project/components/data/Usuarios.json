@@ -1,0 +1,57 @@
+[
+    {
+        "id": 1,
+        "username": "admin",
+        "password": "apu2008",
+        "email": "admin@gmail.com",
+        "edad": 99,
+        "rol": "ADMIN",
+        "imagen": "https://avatars.githubusercontent.com/u/123456789?v=4",
+        "listafavoritos": [],
+        "visible": true
+    },
+    {
+        "id": 2,
+        "username": "Ignacio",
+        "password": "Ignacio123",
+        "email": "ignacio@gmail.com",
+        "edad":18,
+        "rol": "USUARIO",
+        "imagen": "https://avatars.githubusercontent.com/u/123456789?v=4",
+        "listafavoritos":[],
+        "visible":true
+    },
+    {
+        "id": 3,
+        "username": "Enrique",
+        "password": "Enrique123",
+        "email": "enrique@gmail.com",
+        "edad":19,
+        "rol":"USUARIO",
+        "imagen":"https://avatars.githubusercontent.com/u/123456789?v=4",
+        "listafavoritos":[],
+        "visible":true
+    },
+    {
+        "id": 4,
+        "username": "Lucas",
+        "password": "Lucas123",
+        "email": "lucas@gmail.com",
+        "edad":18,
+        "rol":"USUARIO",
+        "imagen":"https://avatars.githubusercontent.com/u/123456789?v=4",
+        "listafavoritos":[],
+        "visible":true
+    },
+    {
+        "id": 5,
+        "username": "Matias",
+        "password": "Matias123",
+        "email": "matias@gmail.com",
+        "edad":18,
+        "rol":"USUARIO",
+        "imagen":"https://avatars.githubusercontent.com/u/123456789?v=4", 
+        "listafavoritos":[],
+        "visible":true
+    }
+]
