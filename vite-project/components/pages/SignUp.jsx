@@ -31,8 +31,11 @@ function SignUp() {
       newErrors.username = "El nombre ya esta siendo usado. Intente con otro"
     }
 
-    if(!nuevoUsuario.email || nuevoUsuario.email.trim() === "")                   //verificacion de email
+    if(!nuevoUsuario.email || nuevoUsuario.email.trim() === ""){                   //verificacion de email
       newErrors.email = "El email es obligatorio";
+    }else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(nuevoUsuario.email)) {
+      newErrors.email = "Debe ingresar un email válido";
+    }
 
     if(!nuevoUsuario.password || nuevoUsuario.password.trim() === ""){            //verificacion de contraseña
       newErrors.password = "La contraseña es obligatorio";
@@ -85,7 +88,7 @@ function SignUp() {
                               <Form.Control
                                 type={
                                   campo === "edad"
-                                  ? "number" : "text"
+                                  ? "number" :"text"
                                 }
                                 name={campo}
                                 value={nuevoUsuario[campo]}

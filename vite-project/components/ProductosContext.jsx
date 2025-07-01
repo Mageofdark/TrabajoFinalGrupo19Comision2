@@ -36,17 +36,9 @@ export function ProductosProvider({ children }) {
       stock: nuevoProducto.stock || 0,  }]);
   };
 
-  const selecionFavorito = (id) => {
-    setProductos(productos =>
-      productos.map(p =>
-        p.id === id ? { ...p, favorito: !p.favorito } : p
-      )
-    );
-  };
-
   return (
     <ProductosContext.Provider
-      value={{ productos, setProductos, agregarProducto, selecionFavorito }}
+      value={{ productos, setProductos, agregarProducto }}
     >
       {loading && <h1>Cargando...</h1>}
       {error && <h1>Error: {error.message}</h1>}
