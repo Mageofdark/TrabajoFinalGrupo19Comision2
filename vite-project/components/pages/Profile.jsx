@@ -18,8 +18,10 @@ export function MostrarDatosProfile(){
         <Card.Body className="bg-secondary p-0">
           <Row className="g-0">
             <Col md={4} className="p-3 d-flex justify-content-center align-items-center">
-            <Card.Img variant='top'src={user.imagen} alt={user.username} height={250}
-              width={250}/>
+            <div className="ratio ratio-1x1" style={{ width: '100%', maxWidth: 250 }}>
+              <Card.Img variant='top'src={user.imagen} alt={user.username} className="object-fit-cover rounded"
+                />
+            </div>
             </Col>
             <Col md={8} className="p-4">
               <ListGroup variant="flush" className="bg-transparent">

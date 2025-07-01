@@ -18,6 +18,8 @@ export function AuthProvider({ children }){
     //solo con la intencion de pensar en cargas asincronas de datos o validaciones
     const [ isLoading, setIsLoading ] = useState(false);
 
+    const isAuthenticated =!!user;          //verificador de si inicio sesion o no
+
     //Carga el usuario a pesar de recargar la pagina
     useEffect(() => {
         const savedUser = localStorage.getItem("user");
@@ -104,9 +106,32 @@ export function AuthProvider({ children }){
     logout();
     }
 
+    const agregarfavorito = (id) => {
+        if(!isAuthenticated){
+        alert("necesita cuenta de usuario para marcar favoritos");
+        return;
+        }
+
+        const ActUser = {
+            ...user,
+            listafavoritos: user.listafavoritos.includes(id)            //verifica si el producto favorito ya esta en la lista personal del usuario
+            ? user.listafavoritos.filter((FavId) => FavId !== id)       //si esta lo saca de la lista (marcar denuevo = deja de ser favorito)
+            : [...user.listafavoritos, id]                              //si no esta lo mete a la lista
+        }
+        setUser(ActUser);
+
+        const newListaUsuarios = listaUsuarios.map((e) => 
+        e.id === user.id ? {...e, ...ActUser} : e              //se intercambian solo los datos que tienen en comun (porque user no maneja la contraseña)
+        )
+
+        localStorage.setItem("Usuarios", JSON.stringify(newListaUsuarios)); 
+        setListaUsuarios(newListaUsuarios);
+        console.log(ActUser);
+  }
+
     const authContextValue = useMemo(() => ({
         user,
-        isAuthenticated: !!user,
+        isAuthenticated,
         isLoading,
         listaUsuarios,
         setUser,
@@ -115,6 +140,7 @@ export function AuthProvider({ children }){
         logout,
         registrarUsuario,
         eliminarUsuario,
+        agregarfavorito,
     }), [user, isLoading, login, logout]);
 
     // Proveer el valor del contexto a los hijos

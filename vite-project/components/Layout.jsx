@@ -35,19 +35,22 @@ function Layout(){
                             </>) 
                         : (                                             // si esta registrado muestra el link del perfil y el btn de cerrar session
                             <>
-                                <NavDropdown title='Perfil' id="basic-nav-dropdown">
+                                <NavDropdown title={<>
+                                    <span>Perfil {""}</span>
+                                    <Image
+                                    alt=""
+                                    src={`${user.imagen}`}
+                                    width="30"
+                                    height="30"
+                                    className='d-inline-block mx-1'
+                                    roundedCircle
+                                    />
+                                </>
+                                } id="basic-nav-dropdown">
                                     <NavDropdown.Item as={Link} to="/Profile">Ajustes</NavDropdown.Item>
                                     <NavDropdown.Divider />
                                     <Button className="w-100" onClick={logout}> Cerrar Sesion </Button>
                                 </NavDropdown>
-                                <Image
-                                alt=""
-                                src={`${user.imagen}`}
-                                width="30"
-                                height="30"
-                                className='d-inline-block mt-1'
-                                roundedCircle
-                                />
                             </>
                         ) }
                     </Nav>
