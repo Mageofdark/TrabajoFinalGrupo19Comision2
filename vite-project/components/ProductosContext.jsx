@@ -17,7 +17,6 @@ export function ProductosProvider({ children }) {
       const productosConExtra = productosData.map((p) => ({
         ...p,
         visible: true,
-        favorito: false,
       }));
       setProductos(productosConExtra);
     }
@@ -26,7 +25,6 @@ export function ProductosProvider({ children }) {
   // Estas funciones deben estar dentro del componente
   const agregarProducto = (nuevoProducto) => {
     setProductos([...productos, { ...nuevoProducto, id: Date.now(), visible: true,
-      favorito: false,
       // Conversión de nombres de campos
       image: nuevoProducto.imagen || "https://placehold.co/150x150",
       title: nuevoProducto.nombre || "Sin título",
