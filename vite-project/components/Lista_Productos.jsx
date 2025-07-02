@@ -121,6 +121,8 @@ export function MostrarProductos() {
     )
 
     setProductos(newProductos);
+    localStorage.setItem("Productos", JSON.stringify(newProductos));
+    // console.log(localStorage.getItem("Productos"))
   }
 
   return (
@@ -136,9 +138,9 @@ export function MostrarProductos() {
             </div>
             <Card.Body>
               <small className='text-muted'> {producto.categoria}</small>
-              <Card.Title className='mt-1 mb-2' style={{height: '180px'}}>
-                {producto.title}
-              </Card.Title>
+                <Card.Title className='mt-1 mb-2' style={{height: '180px'}}>
+                  {producto.title}
+                </Card.Title>
               <div className='mt-auto'>
                 <h5>${producto.price}</h5>
                 <div className='d-flex flex-wrap gap-2'>

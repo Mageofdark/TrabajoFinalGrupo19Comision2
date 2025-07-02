@@ -12,7 +12,7 @@ export function Favoritos() {
   return (
     
     <Container className="p-4 rounded">
-      <h2 className="mb-5">Favoritos</h2>
+      <h1 className="mb-5">Favoritos</h1>
       <Row xs={1} md={2} lg={3} xl={4} className='g-4'>
         {favoritos.length === 0 && <p>No hay productos favoritos.</p>}
         {favoritos.map((producto) => (

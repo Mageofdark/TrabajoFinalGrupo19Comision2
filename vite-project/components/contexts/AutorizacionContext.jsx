@@ -49,6 +49,7 @@ export function AuthProvider({ children }){
             if(usuarioEncontrado) {
                 const { password, ...userWithoutPassword } = usuarioEncontrado;
                 setUser(userWithoutPassword);
+                console.log(userWithoutPassword)
                 setIsLoading(false); //Desactivar carga aqui                
                 return { success: true }; //Retorna exito
             } else {
@@ -89,21 +90,21 @@ export function AuthProvider({ children }){
     },[]);
 
     const eliminarUsuario = (id) => {
-    const confirmation = window.confirm("¿Estás seguro de que deseas eliminar su cuenta? Esta accion es irreversible");
-    if(!confirmation) return;
+        const confirmation = window.confirm("¿Estás seguro de que deseas eliminar su cuenta? Esta accion es irreversible");
+        if(!confirmation) return;
 
-    if(id <=5){
-        alert("No puedes eliminar esta cuenta. Es una cuenta protegida");
-        return;
-    }
+        if(id <=5){
+            alert("No puedes eliminar esta cuenta. Es una cuenta protegida");
+            return;
+        }
 
-    console.log(listaUsuarios)
-    const newListaUsuarios = listaUsuarios.map((e) => 
-        e.id === id ? {...e, visible: false} : e
-    )
-    setListaUsuarios(newListaUsuarios);
-    localStorage.setItem("Usuarios", JSON.stringify(newListaUsuarios)); 
-    logout();
+        console.log(listaUsuarios)
+        const newListaUsuarios = listaUsuarios.map((e) => 
+            e.id === id ? {...e, visible: false} : e
+        )
+        setListaUsuarios(newListaUsuarios);
+        localStorage.setItem("Usuarios", JSON.stringify(newListaUsuarios)); 
+        logout();
     }
 
     const agregarfavorito = (id) => {
@@ -121,7 +122,7 @@ export function AuthProvider({ children }){
         setUser(ActUser);
 
         const newListaUsuarios = listaUsuarios.map((e) => 
-        e.id === user.id ? {...e, ...ActUser} : e              //se intercambian solo los datos que tienen en comun (porque user no maneja la contraseña)
+            e.id === user.id ? {...e, ...ActUser} : e              //se intercambian solo los datos que tienen en comun (porque user no maneja la contraseña)
         )
 
         localStorage.setItem("Usuarios", JSON.stringify(newListaUsuarios)); 
