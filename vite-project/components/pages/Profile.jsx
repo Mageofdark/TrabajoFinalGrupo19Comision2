@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Container, Button, Form, Card, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { useState, useEffect } from "react";
   
+/** * Componente para mostrar los detalles del perfil del usuario autenticado.
+ * Permite editar y eliminar */
 export function MostrarDatosProfile(){
   const { user, eliminarUsuario } = useAuth();
   const navigate = useNavigate();
@@ -49,16 +51,20 @@ export function MostrarDatosProfile(){
   );
 }
 
+/** Componente para editar el perfil del usuario autenticado.
+ * Permite modificar los datos del usuario y guardarlos en el contexto de autenticación */
 export function EditarProfile(){
   const { user, setUser,listaUsuarios, setListaUsuarios} = useAuth();
   const [editProfile,setEditProfile] = useState(user);
   const [errores, setErrores] = useState({});
   const navigate = useNavigate();
 
+  // función para manejar los cambios en los campos del formulario
   const handleChange = (e) => {
     setEditProfile({ ...editProfile, [e.target.name]: e.target.value });
   };
 
+  // validación de los campos del formulario
   const validar = () => {
     const newErrors = {};
 
@@ -78,6 +84,7 @@ export function EditarProfile(){
     return newErrors;
   }
 
+  // función para manejar el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
     const erroresVal = validar();

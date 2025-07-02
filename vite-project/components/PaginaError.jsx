@@ -1,6 +1,8 @@
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
+/** * Componente que muestra una página de error 404.
+ * Indica que la página solicitada no se pudo encontrar. */
 function PaginaError(){
     return(
         <Card className="mt-4 mx-4 shadow bg-secondary text-light border-1">

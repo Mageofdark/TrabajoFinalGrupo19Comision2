@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Container, Button, Form, Card, Row, Col, } from 'react-bootstrap';
 import useAuth from "../hooks/useAuth";
 
+/** * Componente de registro de usuario.
+ * Permite a los nuevos usuarios crear una cuenta. */
 function SignUp() {
   const navigate = useNavigate();
   const { registrarUsuario, listaUsuarios } = useAuth();
@@ -16,10 +18,13 @@ function SignUp() {
   });
   const [errores, setErrores] = useState({});
 
+  // Maneja los cambios en los campos del formulario
   const handleChange = (e) => {
     setNuevoUsuario({ ...nuevoUsuario, [e.target.name]: e.target.value });
   };
 
+  // Validación de los campos del formulario
+  // Verifica que los campos requeridos estén completos y que no haya errores
     const validar = () => {
     const newErrors = {};
     const nombreRepetido = listaUsuarios.find(
@@ -51,6 +56,7 @@ function SignUp() {
     return newErrors;
   }
 
+  // Maneja el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
     const erroresVal = validar();

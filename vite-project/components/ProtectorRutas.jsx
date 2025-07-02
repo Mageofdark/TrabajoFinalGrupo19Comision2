@@ -2,6 +2,9 @@ import { Navigate } from "react-router-dom";
 import useAuth from "./hooks/useAuth";
 import { Container, Spinner } from "react-bootstrap";
 
+/** * Componente que protege rutas según el estado de autenticación y roles del usuario.
+ * Redirige a la página de inicio de sesión si el usuario no está autenticado,
+ * o a una página de error si el usuario no tiene el rol permitido. */
 const ProtectorRutas = ({ rolesPermitidos, children }) => {
     const { isAuthenticated, user, isLoading } = useAuth();
         console.log(user)

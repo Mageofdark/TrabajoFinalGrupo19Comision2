@@ -32,6 +32,8 @@ function AgregarProducto() {
     setProducto({ ...producto, [e.target.name]: e.target.value });
   };
 
+  // Valida los campos del formulario antes de enviar.
+  // Verifica que los campos requeridos estén completos y que no haya errores.
   const validar = () => {
     const newErrors = {};
     if (!producto.nombre || producto.nombre.trim() === "")
@@ -48,6 +50,9 @@ function AgregarProducto() {
     return newErrors;
   };
 
+  // Maneja el envío del formulario.
+  // Valida los campos y, si no hay errores, agrega el producto y redirige al usuario a la lista de productos.
+  // Muestra un mensaje de éxito al agregar el producto.
   const handleSubmit = (e) => {
     e.preventDefault();
     const erroresVal = validar();

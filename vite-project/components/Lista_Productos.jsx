@@ -4,6 +4,9 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import useAuth from './hooks/useAuth.js';
 
+/**
+ * Componente para editar un producto existente.
+ */
 export function EditarProducto() {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -15,10 +18,12 @@ export function EditarProducto() {
   const [productoEdit, setProductoEdit] = useState({...producto});
   const [errores, setErrores] = useState({});
 
+  // Efecto para inicializar el estado del producto a editar
   const handleChange = (e) => {
     setProductoEdit({ ...productoEdit, [e.target.name]: e.target.value });
   };
 
+  // Validación de campos del formulario
   const validar = () => {
     const newErrors = {};
     if(!productoEdit.title || productoEdit.title.trim() === "")
@@ -35,6 +40,7 @@ export function EditarProducto() {
     return newErrors;
   }
 
+  // Maneja el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
     const erroresVal = validar();
@@ -109,9 +115,16 @@ export function EditarProducto() {
   );
 }
 
+/**
+ * Componente para mostrar la lista de productos.
+ * Permite marcar favoritos, editar y eliminar (si es admin).
+ */
 export function MostrarProductos() {
   const { productos, setProductos } = useProductos();
   const { user, agregarfavorito } = useAuth();
+
+  // Maneja la eliminación de un producto.
+  // Muestra una confirmación antes de eliminar.
   const handleEliminar = (id) => {
     const confirmation = window.confirm("¿Estás seguro de que deseas eliminar este producto?");
     if(!confirmation) return;
@@ -138,9 +151,9 @@ export function MostrarProductos() {
             </div>
             <Card.Body>
               <small className='text-muted'> {producto.categoria}</small>
-                <Card.Title className='mt-1 mb-2' style={{height: '180px'}}>
-                  {producto.title}
-                </Card.Title>
+              <Card.Title className='mt-1 mb-2' style={{height: '180px'}}>
+                {producto.title}
+              </Card.Title>
               <div className='mt-auto'>
                 <h5>${producto.price}</h5>
                 <div className='d-flex flex-wrap gap-2'>

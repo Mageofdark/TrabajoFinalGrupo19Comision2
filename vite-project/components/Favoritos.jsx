@@ -3,6 +3,9 @@ import { Container, Button, Card, Row, Col, } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import useAuth from "./hooks/useAuth.js";
 
+/**
+ * Componente para mostrar los productos favoritos.
+ */
 export function Favoritos() {
   const { productos } = useProductos();
   const { user, agregarfavorito } = useAuth();

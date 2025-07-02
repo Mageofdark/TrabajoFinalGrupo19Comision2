@@ -1,5 +1,8 @@
 import { Card, Col, Container, Row, Image } from "react-bootstrap"
 import { Devs } from "./devs.js"
+
+/** * Componente que muestra información sobre el equipo de desarrollo.
+ * Muestra una lista de desarrolladores con sus detalles. */
 function Nosotros(){
     return (
         <Container>
