@@ -3,7 +3,11 @@ import { Link, Outlet } from 'react-router-dom'
 import Footer from './Footer'
 import useAuth from './hooks/useAuth'
 
+/** * Componente de diseño principal que incluye la barra de navegación y el contenido.
+ * Muestra enlaces de navegación y el contenido de las páginas hijas. */
 function Layout(){
+    // Obtiene el estado de autenticación y el usuario actual desde el contexto de autenticación
+    // También proporciona una función para cerrar sesión
     const { isAuthenticated, user, logout} = useAuth();
     return (
         <>

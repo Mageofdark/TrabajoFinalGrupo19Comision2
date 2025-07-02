@@ -1,3 +1,6 @@
+// Hook personalizado para obtener datos de una URL usando fetch y manejar loading/error
+
+
 import { useState, useEffect } from "react";
 export function useFetch(url) {
   const [data, setData] = useState(null);

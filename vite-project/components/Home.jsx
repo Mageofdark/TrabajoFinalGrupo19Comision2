@@ -1,4 +1,7 @@
 import { Container, Card, } from "react-bootstrap";
+
+/** Componente de página de inicio
+ * Muestra un mensaje de bienvenida al usuario */
 function Home(){
     
     return(

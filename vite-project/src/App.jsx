@@ -3,7 +3,7 @@ import Layout from '../components/Layout';
 import Home from '../components/Home';
 import Nosotros from '../components/Nosotros';
 import AgregarProducto from '../components/AgregarProducto'
-import { ProductosProvider, Detalles } from '../components/ProductosContext';
+import { ProductosProvider, Detalles } from '../components/contexts/ProductosContext';
 import { MostrarProductos, EditarProducto } from '../components/Lista_Productos';
 import { Favoritos } from '../components/Favoritos';
 import PaginaError from '../components/PaginaError';

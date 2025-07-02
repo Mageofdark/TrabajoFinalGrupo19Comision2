@@ -1,13 +1,18 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Button, Form, Card, Row, Col } from 'react-bootstrap';
-import { useProductos } from "./ProductosContext";
+import { Container, Button, Form, Card, Row, Col, } from 'react-bootstrap';
+import { useProductos } from "../components/contexts/ProductosContext";
 
+/**
+ * Componente para agregar un nuevo producto a la lista.
+ */
 function AgregarProducto() {
   const navigate = useNavigate();
+  // Obtiene la función para agregar productos desde el contexto
   const { agregarProducto } = useProductos();
   const [errores, setErrores] = useState({});
   
+    // Estado local para los datos del nuevo producto
   const [producto, setProducto] = useState({
     id: Date.now(),
     imagen: "",
@@ -19,10 +24,16 @@ function AgregarProducto() {
     visible: true,
   });
 
+  /**
+   * Maneja los cambios en los campos del formulario.
+   * Actualiza el estado local del producto con el nuevo valor.
+   */
   const handleChange = (e) => {
     setProducto({ ...producto, [e.target.name]: e.target.value });
   };
 
+  // Valida los campos del formulario antes de enviar.
+  // Verifica que los campos requeridos estén completos y que no haya errores.
   const validar = () => {
     const newErrors = {};
     if (!producto.nombre || producto.nombre.trim() === "")
@@ -39,6 +50,9 @@ function AgregarProducto() {
     return newErrors;
   };
 
+  // Maneja el envío del formulario.
+  // Valida los campos y, si no hay errores, agrega el producto y redirige al usuario a la lista de productos.
+  // Muestra un mensaje de éxito al agregar el producto.
   const handleSubmit = (e) => {
     e.preventDefault();
     const erroresVal = validar();
@@ -51,6 +65,7 @@ function AgregarProducto() {
     navigate("/");
   };
 
+   // Renderiza el formulario para agregar un producto
   return (
     <Container className="mt-5">
       <Row className="justify-content-center">

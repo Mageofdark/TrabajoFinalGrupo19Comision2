@@ -1,10 +1,17 @@
+// Contexto y proveedor para la gestión de productos en la aplicación
 import { createContext, useContext, useState, useEffect } from "react";
-import { useFetch } from "./useFetch";
+import { useFetch } from "../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import { Button, Card, Row, Col, ListGroup } from 'react-bootstrap';
+
+// Crea el contexto de productos
 const ProductosContext = createContext();
 
+/**
+ * Proveedor de productos: maneja el estado global de productos y sus acciones.
+ */
 export function ProductosProvider({ children }) {
+  // Obtiene productos desde la API
   const {
     data: productosData,
     loading,
@@ -12,6 +19,7 @@ export function ProductosProvider({ children }) {
   } = useFetch("https://fakestoreapi.com/products");
   const [productos, setProductos] = useState([]);
 
+  // Efecto para inicializar productos con propiedades extra
   useEffect(() => {
     if (productosData) {
       const productosConExtra = productosData.map((p) => ({
@@ -23,6 +31,10 @@ export function ProductosProvider({ children }) {
   }, [productosData]);
 
   // Estas funciones deben estar dentro del componente
+
+  /**
+   * Agrega un nuevo producto a la lista, adaptando los campos del formulario.
+   */
   const agregarProducto = (nuevoProducto) => {
     setProductos([...productos, { ...nuevoProducto, id: Date.now(), visible: true,
       // Conversión de nombres de campos
@@ -34,6 +46,7 @@ export function ProductosProvider({ children }) {
       stock: nuevoProducto.stock || 0,  }]);
   };
 
+   // Provee el contexto a los hijos
   return (
     <ProductosContext.Provider
       value={{ productos, setProductos, agregarProducto }}
@@ -45,6 +58,9 @@ export function ProductosProvider({ children }) {
   );
 }
 
+/**
+ * Componente para mostrar los detalles de un producto.
+ */
 export function Detalles(){
   const { id } = useParams();
   const { productos } = useProductos();
@@ -94,5 +110,5 @@ export function Detalles(){
   );
 };
 
-
+// Hook para consumir el contexto de productos
 export const useProductos = () => useContext(ProductosContext);

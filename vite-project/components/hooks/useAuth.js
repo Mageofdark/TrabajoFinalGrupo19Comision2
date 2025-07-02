@@ -1,3 +1,5 @@
+//Hook personalizado para obtener el contexto de autenticación
+
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AutorizacionContext";
 
