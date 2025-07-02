@@ -1,5 +1,6 @@
 import {Navbar, Container, Nav,NavDropdown, Button, Image} from 'react-bootstrap'
 import { Link, Outlet } from 'react-router-dom'
+import Footer from './Footer'
 import useAuth from './hooks/useAuth'
 
 function Layout(){
@@ -17,11 +18,15 @@ function Layout(){
                         <Nav.Link as={Link} to="/Lista-Productos">Lista de Productos</Nav.Link>
                         <Nav.Link as={Link} to="/Favoritos">Lista de favoritos</Nav.Link>
                         <Nav.Link as={Link} to="/Nosotros">Nosotros</Nav.Link>
-
                         {user?.rol === "ADMIN" &&                     //Muestra Herramientas de administracion si es ADMIN 
                         (
                         <NavDropdown title="Administrador" id="basic-nav-dropdown">
-                                <NavDropdown.Item as={Link} to="/Nuevo-Producto">Agregar Producto</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/Nuevo-Producto">
+                                Agregar Producto
+                            </NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/Papelera">
+                                Papelera
+                            </NavDropdown.Item>
                         </NavDropdown>
                         )}
                     </Nav>
@@ -54,7 +59,6 @@ function Layout(){
                             </>
                         ) }
                     </Nav>
-
                   </Navbar.Collapse>
                 </Container>
             </Navbar>
@@ -62,6 +66,7 @@ function Layout(){
             <section>
                 <Outlet />
             </section>
+            <Footer/>
         </div>
         </>
     )

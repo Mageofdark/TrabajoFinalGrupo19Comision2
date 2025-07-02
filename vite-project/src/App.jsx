@@ -11,6 +11,7 @@ import LoginPage from '../components/pages/LoginPage';
 import { EditarProfile, MostrarDatosProfile } from '../components/pages/Profile';
 import ProtectorRutas from '../components/ProtectorRutas';
 import SignUp from '../components/pages/SignUp';
+import MostrarPapelera from '../components/Papelera';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
                 <AgregarProducto />
               </ProtectorRutas>
               } />
+            <Route path='Papelera' element={<MostrarPapelera />} />
             <Route path='Nosotros' element={<Nosotros />} />
             <Route path='*' element={<PaginaError />} />
             <Route path='Login' element={<LoginPage />} />
