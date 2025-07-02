@@ -2,7 +2,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useFetch } from "../hooks/useFetch";
 import { useParams } from "react-router-dom";
-import { Container, Button, Form, Card, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Button, Card, Row, Col, ListGroup } from 'react-bootstrap';
 
 // Crea el contexto de productos
 const ProductosContext = createContext();
@@ -25,7 +25,6 @@ export function ProductosProvider({ children }) {
       const productosConExtra = productosData.map((p) => ({
         ...p,
         visible: true,
-        favorito: false,
       }));
       setProductos(productosConExtra);
     }
@@ -38,7 +37,6 @@ export function ProductosProvider({ children }) {
    */
   const agregarProducto = (nuevoProducto) => {
     setProductos([...productos, { ...nuevoProducto, id: Date.now(), visible: true,
-      favorito: false,
       // Conversión de nombres de campos
       image: nuevoProducto.imagen || "https://placehold.co/150x150",
       title: nuevoProducto.nombre || "Sin título",
@@ -48,21 +46,10 @@ export function ProductosProvider({ children }) {
       stock: nuevoProducto.stock || 0,  }]);
   };
 
-  /**
-   * Alterna el estado de favorito de un producto por id.
-   */
-  const selecionFavorito = (id) => {
-    setProductos(productos =>
-      productos.map(p =>
-        p.id === id ? { ...p, favorito: !p.favorito } : p
-      )
-    );
-  };
-
    // Provee el contexto a los hijos
   return (
     <ProductosContext.Provider
-      value={{ productos, setProductos, agregarProducto, selecionFavorito }}
+      value={{ productos, setProductos, agregarProducto }}
     >
       {loading && <h1>Cargando...</h1>}
       {error && <h1>Error: {error.message}</h1>}

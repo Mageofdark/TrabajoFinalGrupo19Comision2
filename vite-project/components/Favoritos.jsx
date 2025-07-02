@@ -1,14 +1,18 @@
 import { useProductos } from "../components/contexts/ProductosContext.jsx";
 import { Container, Button, Card, Row, Col, } from 'react-bootstrap';
 import { Link } from "react-router-dom";
+import useAuth from "./hooks/useAuth.js";
+
 export function Favoritos() {
-  const { productos, selecionFavorito } = useProductos();
-  const favoritos = productos.filter((p) => p.favorito && p.visible);
+  const { productos } = useProductos();
+  const { user, agregarfavorito } = useAuth();
+  
+  const favoritos = productos.filter((p) => user?.listafavoritos?.includes(p.id) && p.visible);
 
   return (
     
     <Container className="p-4 rounded">
-      <h2 className="mb-5">Favoritos</h2>
+      <h1 className="mb-5">Favoritos</h1>
       <Row xs={1} md={2} lg={3} xl={4} className='g-4'>
         {favoritos.length === 0 && <p>No hay productos favoritos.</p>}
         {favoritos.map((producto) => (
@@ -37,8 +41,8 @@ export function Favoritos() {
                       id={`favorito-${producto.id}`}
                       role='switch'
                       type="checkbox"
-                      checked={producto.favorito || false}
-                      onChange={() => selecionFavorito(producto.id)}
+                      checked={user?.listafavoritos?.includes(producto.id) || false}
+                      onChange={() => agregarfavorito(producto.id)}
                     /> Favorito
                   </div>
                 </div>

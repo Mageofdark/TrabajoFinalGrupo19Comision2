@@ -1,7 +1,7 @@
 import { useProductos } from '../components/contexts/ProductosContext.jsx';
 import { Container, Button, Form, Card, Row, Col, } from 'react-bootstrap';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useAuth from './hooks/useAuth.js';
 
 export function EditarProducto() {
@@ -110,8 +110,8 @@ export function EditarProducto() {
 }
 
 export function MostrarProductos() {
-  const { productos, setProductos, selecionFavorito } = useProductos();
-  const { isAuthenticated , user, setUser, listaUsuarios, setListaUsuarios } = useAuth();
+  const { productos, setProductos } = useProductos();
+  const { user, agregarfavorito } = useAuth();
   const handleEliminar = (id) => {
     const confirmation = window.confirm("¿Estás seguro de que deseas eliminar este producto?");
     if(!confirmation) return;
@@ -121,30 +121,8 @@ export function MostrarProductos() {
     )
 
     setProductos(newProductos);
-  }
-
-  const agregarfavorito = (id) => {
-    if(!isAuthenticated){
-      alert("necesita cuenta de usuario para marcar favoritos");
-      return;
-    }
-
-    selecionFavorito(id);           //marca el favorito en la pantalla
-   
-    const ActUser = {
-      ...user,
-      listafavoritos: user.listafavoritos.includes(id)            //verifica si el producto favorito ya esta en la lista personal del usuario
-      ? user.listafavoritos.filter((FavId) => FavId !== id)       //si esta lo saca de la lista (marcar denuevo = deja de ser favorito)
-      : [...user.listafavoritos, id]                              //si no esta lo mete a la lista
-    }
-    setUser(ActUser);
-
-    const newListaUsuarios = listaUsuarios.map((e) => 
-    e.id === user.id ? {...e, ...ActUser} : e              //se intercambian solo los datos que tienen en comun (porque user no maneja la contraseña)
-    )
-    localStorage.setItem("Usuarios", JSON.stringify(newListaUsuarios)); 
-    setListaUsuarios(newListaUsuarios);
-    console.log(ActUser);
+    localStorage.setItem("Productos", JSON.stringify(newProductos));
+    // console.log(localStorage.getItem("Productos"))
   }
 
   return (
@@ -160,9 +138,9 @@ export function MostrarProductos() {
             </div>
             <Card.Body>
               <small className='text-muted'> {producto.categoria}</small>
-              <Card.Title className='mt-1 mb-2' style={{height: '180px'}}>
-                {producto.title}
-              </Card.Title>
+                <Card.Title className='mt-1 mb-2' style={{height: '180px'}}>
+                  {producto.title}
+                </Card.Title>
               <div className='mt-auto'>
                 <h5>${producto.price}</h5>
                 <div className='d-flex flex-wrap gap-2'>
