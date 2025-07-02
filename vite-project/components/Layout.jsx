@@ -1,5 +1,6 @@
 import {Navbar, Container, Nav,NavDropdown, Button, Image} from 'react-bootstrap'
 import { Link, Outlet } from 'react-router-dom'
+import Footer from './Footer'
 import useAuth from './hooks/useAuth'
 
 function Layout(){
@@ -65,6 +66,7 @@ function Layout(){
             <section>
                 <Outlet />
             </section>
+            <Footer/>
         </div>
         </>
     )
