@@ -1,4 +1,4 @@
-import { useProductos } from "./ProductosContext.jsx";
+import { useProductos } from "../components/contexts/ProductosContext.jsx";
 import { Container, Button, Card, Row, Col, } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 export function Favoritos() {

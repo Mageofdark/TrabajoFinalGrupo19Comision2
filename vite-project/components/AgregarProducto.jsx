@@ -1,11 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Button, Form, Card, Row, Col, } from 'react-bootstrap';
-import { useProductos } from "./ProductosContext";
+import { useProductos } from "../components/contexts/ProductosContext";
 
+/**
+ * Componente para agregar un nuevo producto a la lista.
+ */
 function AgregarProducto() {
   const navigate = useNavigate();
+  // Obtiene la función para agregar productos desde el contexto
   const { agregarProducto } = useProductos();
+    // Estado local para los datos del nuevo producto
   const [producto, setProducto] = useState({
     id: Date.now(),
     imagen: "",
@@ -17,10 +22,18 @@ function AgregarProducto() {
     visible: true,
   });
 
+  /**
+   * Maneja los cambios en los campos del formulario.
+   * Actualiza el estado local del producto con el nuevo valor.
+   */
   const handleChange = (e) => {
     setProducto({ ...producto, [e.target.name]: e.target.value });
   };
 
+  /**
+   * Maneja el envío del formulario.
+   * Agrega el producto usando el contexto, muestra una alerta y navega al inicio.
+   */
   const handleSubmit = (e) => {
     e.preventDefault();
     agregarProducto(producto);
@@ -28,6 +41,7 @@ function AgregarProducto() {
     navigate("/");
   };
 
+   // Renderiza el formulario para agregar un producto
   return (
     <Container className="mt-5">
       <Row className="justify-content-center">

@@ -1,4 +1,4 @@
-import { useProductos } from './ProductosContext.jsx';
+import { useProductos } from '../components/contexts/ProductosContext.jsx';
 import { Container, Button, Form, Card, Row, Col, } from 'react-bootstrap';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
