@@ -23,7 +23,7 @@ function Nosotros(){
                                 <Card.Title>{dev.nombre} {dev.apellido}</Card.Title>
                                 <Card.Text>
                                     <strong>Institución:</strong> {dev.Institucion}<br />
-                                    <a href={`mailto:${dev.correo}`} className="text-info">{dev.correo}</a>
+                                    <h5 >{dev.correo}</h5>
                                 </Card.Text>
                                 <a href={dev.github} className="mt-auto" rel="noopener noreferrer" target="_blank">Perfil de Github</a>
                             </Card.Body>
