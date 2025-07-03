@@ -59,6 +59,7 @@ function AgregarProducto() {
 
     if (Object.keys(erroresVal).length > 0) return;
 
+    agregarProducto(producto);
     alert("Producto agregado exitosamente");
     navigate("/");
   };

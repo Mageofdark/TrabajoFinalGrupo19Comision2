@@ -71,6 +71,55 @@ function SignUp() {
     navigate("/Login");
   };
 
+  const [previewImage, setPreviewImage] = useState('');
+
+  // Convertir imagen a Base64
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
+    });
+  };
+
+  // Manejar arrastre y soltado de imagen
+  const handleDrop = async (e) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file?.type.startsWith('image/')) {
+      try {
+        const base64 = await convertToBase64(file);
+        setPreviewImage(base64);
+        setNuevoUsuario(prev => ({ 
+          ...prev, 
+          imagen: base64
+        }));
+      } catch (error) {
+        console.error("Error al procesar imagen:", error);
+        setErrores(prev => ({ ...prev, imagen: "Error al cargar la imagen" }));
+      }
+    }
+  };
+
+  // Manejar selección de archivo
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const base64 = await convertToBase64(file);
+        setPreviewImage(base64);
+        setNuevoUsuario(prev => ({ 
+          ...prev, 
+          imagen: base64 
+        }));
+      } catch (error) {
+        console.error("Error al procesar imagen:", error);
+        setErrores(prev => ({ ...prev, imagen: "Error al cargar la imagen" }));
+      }
+    }
+  };
+
   return (
     <Container className="mt-5">
       <Row className="justify-content-center">
@@ -81,8 +130,39 @@ function SignUp() {
               </Card.Header>
               <Card.Body className="bg-secondary">
                   <Form onSubmit={handleSubmit}>
+                    <div 
+                      onDrop={handleDrop}
+                      onDragOver={(e) => e.preventDefault()}
+                      className="border border-primary p-3 mb-2 text-center bg-light"
+                      
+                    >
+                      {previewImage ? (
+                        <img 
+                          src={previewImage} 
+                          alt="Preview" 
+                          style={{ maxHeight: '250px', maxWidth: '100%' }}
+                        />
+                      ) : (
+                        <p className="text-muted mb-0">Arrastra tu imagen aca</p>
+                      )}
+                      <Form.Control
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        className="d-none"
+                        id="file-upload"
+                      />
+                    </div>
+                    <Button 
+                      variant="primary" 
+                      onClick={() => document.getElementById('file-upload').click()}
+                      
+                    >
+                      Seleccionar Imagen
+                    </Button>
                     <Row>
                         {Object.keys(nuevoUsuario)
+                        .filter((campo) => campo !== "visible" && campo !== "id" && campo !== "imagen")
                         .map((campo) => (
                           <Col md={6} key={campo}>
                             <Form.Group className="mb-3" controlId={campo}>
