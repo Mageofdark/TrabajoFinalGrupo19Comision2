@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Button, Form, Card, Row, Col, } from 'react-bootstrap';
 import { useProductos } from "../components/contexts/ProductosContext";
@@ -15,7 +15,7 @@ function AgregarProducto() {
     // Estado local para los datos del nuevo producto
   const [producto, setProducto] = useState({
     id: Date.now(),
-    imagen: "",
+    imagen: null,
     nombre: "",
     precio: "",
     descripcion: "",
@@ -23,7 +23,6 @@ function AgregarProducto() {
     stock: "",
     visible: true,
   });
-
   /**
    * Maneja los cambios en los campos del formulario.
    * Actualiza el estado local del producto con el nuevo valor.
@@ -60,10 +59,53 @@ function AgregarProducto() {
 
     if (Object.keys(erroresVal).length > 0) return;
 
-    agregarProducto(producto);
     alert("Producto agregado exitosamente");
     navigate("/");
   };
+ 
+const [previewImage, setPreviewImage] = useState(producto?.imagen || '');
+
+const convertToBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+    reader.readAsDataURL(file);
+  });
+};
+
+const handleDrop = async (e) => {
+  e.preventDefault();
+  const file = e.dataTransfer.files[0];
+  if (file?.type.startsWith('image/')) {
+    try {
+      const base64 = await convertToBase64(file);
+      setPreviewImage(base64);
+      setProducto(prev => ({ 
+        ...prev, 
+        imagen: base64
+      }));
+    } catch (error) {
+      console.error("Error al procesar imagen:", error);
+    }
+  }
+};
+
+const handleFileChange = async (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    try {
+      const base64 = await convertToBase64(file);
+      setPreviewImage(base64);
+      setProducto(prev => ({ 
+        ...prev, 
+        imagen: base64 
+      }));
+    } catch (error) {
+      console.error("Error al procesar imagen:", error);
+    }
+  }
+};
 
    // Renderiza el formulario para agregar un producto
   return (
@@ -76,9 +118,30 @@ function AgregarProducto() {
             </Card.Header>
             <Card.Body className="bg-secondary">
               <Form onSubmit={handleSubmit} noValidate>
+                <div 
+                  onDrop={handleDrop}
+                  onDragOver={(e) => e.preventDefault()}
+                  className="border border-primary p-3 mb-3 text-center bg-light"
+                >
+                    <img src={previewImage} thumbnail height={250} />
+                  <Form.Control
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="d-none"
+                    id="file-upload"
+                  />
+                  
+                </div>
+                <Button 
+                    variant="primary" 
+                    onClick={() => document.getElementById('file-upload').click()}
+                  >
+                    Seleccionar Imagen
+                  </Button>
                 <Row>
                   {Object.keys(producto)
-                    .filter((campo) => campo !== "visible" && campo !== "id")
+                    .filter((campo) => campo !== "visible" && campo !== "id" && campo !== "imagen")
                     .map((campo) => (
                       <Col md={6} key={campo}>
                         <Form.Group className="mb-3" controlId={campo}>

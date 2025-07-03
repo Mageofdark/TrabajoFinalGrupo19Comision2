@@ -1,7 +1,7 @@
 import useAuth from "../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Container, Button, Form, Card, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
   
 /** * Componente para mostrar los detalles del perfil del usuario autenticado.
  * Permite editar y eliminar */
@@ -12,9 +12,12 @@ export function MostrarDatosProfile(){
   return (
     <Card className='bg-dark text-light p-4 mt-4'>
         <div className="d-flex gap-2 mt-3">
-          <Button variant="outline-primary" onClick={() => window.history.back()}>
+          <Link to="/">
+            <Button variant="outline-primary">
             Volver
-          </Button>
+            </Button>
+          </Link>
+          
         </div>
         <h2 className="mt-4 mb-4">Detalles de la cuenta</h2>
         <Card.Body className="bg-secondary p-0">
@@ -104,6 +107,57 @@ export function EditarProfile(){
     navigate("/Profile");
   };
 
+// Estado para la imagen de perfil en formato Base64
+// Inicializamos con la imagen del usuario o una cadena vacía si no hay imagen
+const [previewImage, setPreviewImage] = useState(user?.imagen || '');
+// Función para convertir un archivo a Base64
+// Esta función se utiliza para manejar la imagen de perfil
+const convertToBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+    reader.readAsDataURL(file);
+  });
+};
+
+// Manejo de arrastre y soltado de archivos
+// Esta función se activa cuando el usuario arrastra y suelta una imagen en el área design
+const handleDrop = async (e) => {
+  e.preventDefault();
+  const file = e.dataTransfer.files[0];
+  if (file?.type.startsWith('image/')) {
+    try {
+      const base64 = await convertToBase64(file);
+      setPreviewImage(base64);
+      setEditProfile(prev => ({ 
+        ...prev, 
+        imagen: base64 // Guardamos el Base64 directamente
+      }));
+    } catch (error) {
+      console.error("Error al procesar imagen:", error);
+    }
+  }
+};
+
+// Manejo del cambio de archivo
+// Esta función se activa cuando el usuario selecciona un archivo a través del input de tipo file
+const handleFileChange = async (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    try {
+      const base64 = await convertToBase64(file);
+      setPreviewImage(base64);
+      setEditProfile(prev => ({ 
+        ...prev, 
+        imagen: base64 
+      }));
+    } catch (error) {
+      console.error("Error al procesar imagen:", error);
+    }
+  }
+};
+
   return (
     <>
       <Container className="mt-4 bg-dark p-4 rounded text-light">
@@ -116,10 +170,30 @@ export function EditarProfile(){
               <Card.Body className="bg-secondary">
                   <Form onSubmit={handleSubmit} noValidate>
                     <h3>ID: {editProfile.id}</h3>
-                    
+                    <div 
+                      onDrop={handleDrop}
+                      onDragOver={(e) => e.preventDefault()}
+                      className="border border-primary p-3 mb-3 text-center bg-light"
+                    >
+                    <img src={previewImage} height={250} />
+                    <Form.Control
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      className="d-none"
+                      id="file-upload"
+                    />
+                  
+                    </div>
+                <Button 
+                    variant="primary" 
+                    onClick={() => document.getElementById('file-upload').click()}
+                  >
+                    Editar Imagen de perfil
+                  </Button>
                     <Row>
                         {Object.keys(editProfile)
-                        .filter((campo) => campo !== "visible" && campo !== "id" && campo !== "rol" && campo !== "listafavoritos")
+                        .filter((campo) => campo !== "visible" && campo !== "id" && campo !== "rol" && campo !== "listafavoritos" && campo !== "imagen")
                         .map((campo) => (
                           <Col md={6} key={campo}>
                             <Form.Group className="mb-3" controlId={campo}>
