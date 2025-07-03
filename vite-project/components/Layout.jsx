@@ -2,19 +2,24 @@ import {Navbar, Container, Nav,NavDropdown, Button, Image} from 'react-bootstrap
 import { Link, Outlet } from 'react-router-dom'
 import Footer from './Footer'
 import useAuth from './hooks/useAuth'
+import  PleiadesLogo  from './Pleiadeslogo'
 
 /** * Componente de diseño principal que incluye la barra de navegación y el contenido.
  * Muestra enlaces de navegación y el contenido de las páginas hijas. */
 function Layout(){
+
     // Obtiene el estado de autenticación y el usuario actual desde el contexto de autenticación
     // También proporciona una función para cerrar sesión
     const { isAuthenticated, user, logout} = useAuth();
+    
     return (
         <>
         <div className="bg-dark min-vh-100 text-white">
             <Navbar expand="lg" bg='primary' variant='dark'>
                 <Container>
-                    <Navbar.Brand as={Link} to="/" className='fw-bold'>Pagina de Productos</Navbar.Brand>
+                    <Navbar.Brand as={Link} to="/" className="fw-bold me-6 d-flex align-items-center"  style={{ minWidth: "160px" }}>
+                        <PleiadesLogo size="sm" className="d-inline-block" />
+                    </Navbar.Brand>
                     <Navbar.Toggle aria-controls='basic-navbar-nav' />
                     <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className='me-auto'>              

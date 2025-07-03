@@ -19,9 +19,11 @@ export function ProductosProvider({ children }) {
   } = useFetch("https://fakestoreapi.com/products");
   const [productos, setProductos] = useState([]);
 
-  // Efecto para inicializar productos con propiedades extra
   useEffect(() => {
-    if (productosData) {
+    const productosGuardados = localStorage.getItem("productos");
+    if (productosGuardados) {
+      setProductos(JSON.parse(productosGuardados)); // Usa los datos locales
+    } else if (productosData) {
       const productosConExtra = productosData.map((p) => ({
         ...p,
         visible: true,
@@ -29,6 +31,13 @@ export function ProductosProvider({ children }) {
       setProductos(productosConExtra);
     }
   }, [productosData]);
+
+
+  useEffect(() => {
+    if (productos.length > 0) {
+      localStorage.setItem("productos", JSON.stringify(productos));
+    }
+  }, [productos]);
 
   // Estas funciones deben estar dentro del componente
 
@@ -38,12 +47,13 @@ export function ProductosProvider({ children }) {
   const agregarProducto = (nuevoProducto) => {
     setProductos([...productos, { ...nuevoProducto, id: Date.now(), visible: true,
       // Conversión de nombres de campos
-      image: nuevoProducto.imagen || "https://placehold.co/150x150",
       title: nuevoProducto.nombre || "Sin título",
       price: nuevoProducto.precio || 0,
+      image: nuevoProducto.imagen || "https://placehold.co/150x150",
       description: nuevoProducto.descripcion || "",
       category: nuevoProducto.categoria || "",
-      stock: nuevoProducto.stock || 0,  }]);
+      stock: nuevoProducto.stock || 0,
+      }]);
   };
 
    // Provee el contexto a los hijos

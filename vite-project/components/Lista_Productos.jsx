@@ -57,6 +57,39 @@ export function EditarProducto() {
     alert('Los cambios se guardaron correctamente');
     navigate("/Lista-Productos");
   };
+  // Convierte un archivo a base64 para previsualizar la imagen
+  // Utiliza FileReader para leer el archivo y convertirlo a una cadena base64
+  const convertToBase64 = (file) => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.readAsDataURL(file);
+    });
+  };
+  // Estado para la imagen previa del producto
+  // Inicializa con la imagen actual del producto
+  const [previewImage, setPreviewImage] = useState(producto.image);
+  // Maneja el arrastre de imágenes
+  // Utiliza el evento onDrop para capturar el archivo arrastrado y convertirlo
+  const handleDrop = async (e) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file?.type.startsWith('image/')) {
+      const base64 = await convertToBase64(file);
+      setPreviewImage(base64);
+      setProductoEdit({...productoEdit, image: base64});
+    }
+  };
+// Maneja el cambio de archivo al seleccionar una imagen
+// Utiliza FileReader para leer el archivo y actualizar el estado de la imagen previa
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const base64 = await convertToBase64(file);
+      setPreviewImage(base64);
+      setProductoEdit({...productoEdit, image: base64});
+    }
+  };
 
   return (
     <>
@@ -64,16 +97,47 @@ export function EditarProducto() {
         <Row className="justify-content-center">
           <Col md={10}>
             <Card className="border-primary shadow bg-secondary text-light">
-              <Card.Header as="h5" className="text-center bg-secondary text-white">
+              <Card.Header as="h3" className="text-center bg-secondary text-white">
                 Editar Producto
               </Card.Header>
               <Card.Body className="bg-secondary">
                   <Form onSubmit={handleSubmit} noValidate>
+
+                     <Form.Group className="mb-3">
+                      <Form.Label as="h4">Imagen del Producto</Form.Label>
+                      <div 
+                        onDrop={handleDrop}
+                        onDragOver={(e) => e.preventDefault()}
+                      >
+                          <img src={previewImage} height={200} alt="Preview" />
+                        <Form.Control
+                          type="file"
+                          accept="image/*"
+                          onChange={handleFileChange}
+                          style={{display: 'none'}}
+                          id="image-upload"
+                        />
+                        
+                      </div>
+                      <Button 
+                          className="mt-2"
+                          variant="primary" 
+                          onClick={() => document.getElementById('image-upload').click()}
+                        >
+                          Editar imagen
+                      </Button>
+                    </Form.Group>
                     <h3>ID: {productoEdit.id}</h3>
                     
                     <Row>
                         {Object.keys(productoEdit)
-                        .filter((campo) => campo !== "visible" && campo !== "id" && campo !== "favorito" && campo !== "rating")
+                        .filter((campo) => campo !== "visible" &&
+                        // Excluye campos que no deben ser editables
+                        campo !== "id" &&
+                        campo !== "favorito" &&
+                        campo !== "rating" &&
+                        campo !== "imagen" &&
+                        !['nombre', 'precio', 'descripcion', 'categoria', 'image'].includes(campo))
                         .map((campo) => (
                           <Col md={6} key={campo}>
                             <Form.Group className="mb-3" controlId={campo}>
@@ -146,16 +210,20 @@ export function MostrarProductos() {
         <Col key={producto.id}>
           <Card className='h-100 bg-secondary text-light bordder-primary'>
             <div className='d-flex justify-content-center p-3'>
-              <Card.Img variant='top'src={producto.image} alt={producto.title} height={250}
-              width={100}/>
+              <Card.Img 
+              variant='top'
+              src={producto.image || producto.imagen} 
+              alt={producto.title || producto.nombre} 
+              height={250}
+              width={100}
+              />
             </div>
             <Card.Body>
-              <small className='text-muted'> {producto.categoria}</small>
               <Card.Title className='mt-1 mb-2' style={{height: '180px'}}>
-                {producto.title}
+                {producto.title || producto.nombre}
               </Card.Title>
               <div className='mt-auto'>
-                <h5>${producto.price}</h5>
+                <h5>${producto.price || producto.precio}</h5>
                 <div className='d-flex flex-wrap gap-2'>
                   <Link to={`/Lista-productos/${producto.id}`}>
                     <Button variant='info' size='sm' className='m-2'>
